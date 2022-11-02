@@ -1,4 +1,5 @@
-import pytest
+import unittest
+from parameterized import parameterized
 from api_yd import put_resources, TOKEN_YD, url_yd
 
 FIXTURES = [
@@ -9,7 +10,8 @@ FIXTURES = [
     (TOKEN_YD, url_yd, 'zxc', 200, 'zxc')
 ]
 
-@pytest.mark.parametrize("a, b, c, exp_status_result, exp_folder_result", FIXTURES)
-def test_put_resources(a, b, c, exp_status_result, exp_folder_result):
-    status_result, folder_result = put_resources(a, b, c)
-    assert (exp_status_result, exp_folder_result) == (status_result, folder_result)
+class TestFuctions(unittest.TestCase):
+    @parameterized.expand(FIXTURES)
+    def test_put_resources(self, a, b, c, exp_status_result, exp_folder_result):
+        status_result, folder_result = put_resources(a, b, c)
+        self.assertEquals((exp_status_result, exp_folder_result), (status_result, folder_result))
